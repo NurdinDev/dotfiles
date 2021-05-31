@@ -1,0 +1,28 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ["~", "~/.config/nvim", "~/.config/alacritty", "~/.config/fish"]
+
+- link:
+    ~/.editorconfig:
+    ~/.gitconfig:
+    ~/.gitconfig-gitlab-zad:
+    ~/.gitignore:
+    ~/.config/alacritty: alacritty
+    ~/.config/fish: fish
+    ~/.config/nvim: nvim
+
+    # Tmux config files
+    ~/.tmux:
+    ~/.tmux.conf:
+
+    ~/Library/LaunchAgents/io.arslan.dark-mode-notify.plist: io.arslan.dark-mode-notify.plist
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
+    - swiftc dark-mode-notify/dark-mode-notify.swift -o /usr/local/bin/dark-mode-notify
+    - launchctl load -w ~/Library/LaunchAgents/io.arslan.dark-mode-notify.plist
+    - launchctl start io.arslan.dark-mode-notify
+    - defaults -currentHost write -g AppleFontSmoothing -int 0
