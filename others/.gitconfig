@@ -2,8 +2,8 @@
 [user]
 	name = Nureddin Bedevi
 	email = nureddin.dev@gmail.com
-[includeIf "gitdir:dev/gitlab.zadapps.info/"]
-	path= .gitconfig-gitlab-zad
+[includeIf "gitdir:dev/roaatech/"]
+	path= .gitconfig-roaa
 [alias]
 	st = status -sb
 	ci = commit
@@ -59,3 +59,8 @@
 	defaultBranch = main
 [ghq]
 	root = ~/dev
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

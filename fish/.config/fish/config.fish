@@ -1,7 +1,8 @@
 set -gx EDITOR nvim
 set fish_greeting ""
 
-alias vim="nvim"
+alias vim="lvim"
+alias nvim="lvim"
 
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 
@@ -33,3 +34,5 @@ function __fish_describe_command; end
 status --is-interactive; and source (jump shell fish | psub)
 
 set -g fish_user_paths "/usr/local/opt/openssl@1.1/bin" $fish_user_paths
+fish_add_path /usr/local/opt/php@7.3/bin
+fish_add_path /usr/local/opt/php@7.3/sbin
