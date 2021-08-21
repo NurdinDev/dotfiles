@@ -1,9 +1,0 @@
-.stow-local-ignore
-.*.example
-Brewfile
-^/@.*
-.DS_Store
-.DS_Store
-.git
-.gitignore
-README.*
