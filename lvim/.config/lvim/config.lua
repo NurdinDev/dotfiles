@@ -2,7 +2,7 @@
 -- =========================================
 lvim.format_on_save = false
 lvim.leader = " "
-lvim.colorscheme = "pablo"
+-- lvim.colorscheme = "pablo"
 lvim.debug = false
 lvim.log.level = "warn"
 require("user.neovim").config()
@@ -36,7 +36,7 @@ end
 -- general
 lvim.format_on_save = true
 lvim.lint_on_save = true
-lvim.colorscheme = "onedarker"
+-- lvim.colorscheme = "onedarker"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"

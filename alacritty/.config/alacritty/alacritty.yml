@@ -1,0 +1,207 @@
+# import:
+#   - "~/.config/alacritty/colors.yml"
+# env:
+  # TERM env customization.
+  #
+  # If this property is not set, alacritty will set it to xterm-256color.
+  #
+  # Note that some xterm terminfo databases don't declare support for italics.
+  # You can verify this by checking for the presence of `smso` and `sitm` in
+  # `infocmp xterm-256color`.
+  # TERM: xterm-256color
+
+window:
+  padding:
+    x: 0
+    y: 0
+
+  decorations: none
+  startup_mode: Fullscreen
+  dynamic_padding: true
+  title: Alacritty
+  class:
+    instance: Alacritty
+    general: Alacritty
+
+  scrolling:
+    history: 10000
+    multiplier: 3
+
+
+font:
+  # normal:
+    # family: IBM Plex Mono
+    # family: SauceCodePro Nerd Font
+    # family: CodeNewRoman Nerd Font
+    # family: RobotoMono Nerd Font
+    # family: Hack Nerd Font
+    # family: JetBrainsMono Nerd Font
+    # family: UbuntuCondensed Nerd Font
+    # family: Monofur Nerd Font
+    # family: TerminessTTF Nerd Font
+    # family: Mononoki Nerd Font
+    # family: FiraCode Nerd Font 
+    # family: CaskaydiaCove Nerd Font
+    # family: Iosevka Nerd Font
+
+  normal:
+    family: SauceCodePro Nerd Font
+    style: Regular
+
+  bold:
+    family: SauceCodePro Nerd Font
+    style: Bold
+
+  italic:
+    family: SauceCodePro Nerd Font
+    style: Italic
+
+  bold_italic:
+    family: SauceCodePro Nerd Font
+    style: Bold Italic
+
+  size: 16.5
+
+  offset:
+     x: 0
+     y: 2
+
+  glyph_offset:
+   x: -1
+   y: 0
+
+  # When true, bold text is drawn using the bright variant of colors.
+  draw_bold_text_with_bright_colors: true
+  use_thin_strokes: true
+
+
+background_opacity: 0.8
+
+# When true, bold text is drawn using the bright variant of colors.
+draw_bold_text_with_bright_colors: true
+
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 10000
+
+  # Number of lines the viewport will move for every line scrolled when
+  # scrollback is enabled (history > 0).
+  multiplier: 3
+
+bell:
+  animation: EaseOutExpo
+  duration: 0
+
+# selection:
+#   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+  # When set to `true`, selected text will be copied to both the primary and
+  # the selection clipboard. Otherwise, it will only be copied to the selection
+  # clipboard.
+  # save_to_clipboard: true
+
+colors:
+  # Default colors
+  primary:
+    background: '0x1e2127'
+    foreground: '0xabb2bf'
+
+    bright_foreground: '0xe6efff'
+  # Normal colors
+  normal:
+    black:   '0x1e2127'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xd19a66'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0x828791'
+
+  # Bright colors
+  bright:
+    black:   '0x5c6370'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xd19a66'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xe6efff'
+
+  dim:
+    black:   '0x1e2127'
+    red:     '0xe06c75'
+    green:   '0x98c379'
+    yellow:  '0xd19a66'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0x828791'
+
+background_opacity: 0.8
+
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always
+  vi_mode_style: Block
+  blink_interval: 750
+
+
+key_bindings:
+  - { key: Left,     mods: Control, chars: "\x1bb"                       }
+  - { key: Right,    mods: Control, chars: "\x1bf"                       }
+  - { key: V,        mods: Command, action: Paste                        }
+  - { key: C,        mods: Command, action: Copy                         }
+  - { key: Q,        mods: Command, action: Quit                         }
+  - { key: N,        mods: Command, command: { program: "open", args: ["-nb", "io.alacritty"] } }
+  - { key: PageUp,    action: ScrollPageUp,  }
+  - { key: PageDown,  action: ScrollPageDown }
+  - { key: Home,      action: ScrollToTop,   }
+  - { key: End,       action: ScrollToBottom }
+  # vi mode
+  - { key: Space,  mods: Shift,         mode: ~Search,    action: ToggleViMode            }
+  - { key: Escape,                      mode: Vi|~Search, action: ClearSelection          }
+  - { key: Escape,                      mode: Vi|~Search, action: ToggleViMode            }
+  - { key: K,                           mode: Vi|~Search, action: Up                      }
+  - { key: J,                           mode: Vi|~Search, action: Down                    }
+  - { key: H,                           mode: Vi|~Search, action: Left                    }
+  - { key: L,                           mode: Vi|~Search, action: Right                   }
+  - { key: G,                           mode: Vi|~Search, action: ScrollToTop             }
+  - { key: G,      mods: Shift,         mode: Vi|~Search, action: ScrollToBottom          }
+  - { key: I,                           mode: Vi|~Search, action: ScrollToBottom          }
+  - { key: I,                           mode: Vi|~Search, action: ToggleViMode            }
+  - { key: C,      mods: Control,       mode: Vi|~Search, action: ToggleViMode            }
+  - { key: U,      mods: Control,       mode: Vi|~Search, action: ScrollHalfPageUp        }
+  - { key: D,      mods: Control,       mode: Vi|~Search, action: ScrollHalfPageDown      }
+  - { key: Y,                           mode: Vi|~Search, action: Copy                    }
+  - { key: Y,                           mode: Vi|~Search, action: ClearSelection          }
+  - { key: V,                           mode: Vi|~Search, action: ToggleNormalSelection   }
+  - { key: V,      mods: Shift,         mode: Vi|~Search, action: ToggleLineSelection     }
+  - { key: V,      mods: Control,       mode: Vi|~Search, action: ToggleBlockSelection    }
+  - { key: V,      mods: Alt,           mode: Vi|~Search, action: ToggleSemanticSelection }
+  - { key: Return,                      mode: Vi|~Search, action: Open                    }
+  - { key: Up,                          mode: Vi|~Search, action: Up                      }
+  - { key: Down,                        mode: Vi|~Search, action: Down                    }
+  - { key: Left,                        mode: Vi|~Search, action: Left                    }
+  - { key: Right,                       mode: Vi|~Search, action: Right                   }
+  - { key: Key0,                        mode: Vi|~Search, action: First                   }
+  - { key: Key4,   mods: Shift,         mode: Vi|~Search, action: Last                    }
+  - { key: Key6,   mods: Shift,         mode: Vi|~Search, action: FirstOccupied           }
+  - { key: H,      mods: Shift,         mode: Vi|~Search, action: High                    }
+  - { key: M,      mods: Shift,         mode: Vi|~Search, action: Middle                  }
+  - { key: L,      mods: Shift,         mode: Vi|~Search, action: Low                     }
+  - { key: B,                           mode: Vi|~Search, action: SemanticLeft            }
+  - { key: W,                           mode: Vi|~Search, action: SemanticRight           }
+  - { key: E,                           mode: Vi|~Search, action: SemanticRightEnd        }
+  - { key: B,      mods: Shift,         mode: Vi|~Search, action: WordLeft                }
+  - { key: W,      mods: Shift,         mode: Vi|~Search, action: WordRight               }
+  - { key: E,      mods: Shift,         mode: Vi|~Search, action: WordRightEnd            }
+  - { key: Key5,   mods: Shift,         mode: Vi|~Search, action: Bracket                 }
+  - { key: Slash,                       mode: Vi|~Search, action: SearchForward           }
+  - { key: Slash,  mods: Shift,         mode: Vi|~Search, action: SearchBackward          }
+  - { key: N,                           mode: Vi|~Search, action: SearchNext              }
+  - { key: N,      mods: Shift,         mode: Vi|~Search, action: SearchPrevious          }

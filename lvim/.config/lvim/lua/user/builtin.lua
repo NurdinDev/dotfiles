@@ -165,7 +165,7 @@ M.config = function()
   -- =========================================
   local _time = os.date "*t"
   if _time.hour >= 21 and _time.hour <= 24 then
-    lvim.colorscheme = "onedarker"
+    -- lvim.colorscheme = "onedarker"
   end
   --   if lvim.builtin.lastplace.active == false then
   --     -- go to last loc when opening a buffer

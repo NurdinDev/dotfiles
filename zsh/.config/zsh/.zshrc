@@ -35,23 +35,22 @@ source "$ZDOTDIR/zsh-functions"
 zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
-zsh_add_file "tmuxinator"
+zsh_add_file "zsh-tmuxinator"
 
-# Set dynamic colors for alacritty(weird padding issue)
-DEFAULT_TERM_BG="#000000"
+DEFAULT_TERM_BG="0x1e2127"
 VIM_TERM_BG="#282a36"
+
 term_scheme() {
  local COLOR="$1"
- if [ "$TERM" == "screen-256color" ]; then
-# TMUX
+ 
+ if [[ -n "$TMUX" ]]; then
   echo -ne "\\ePtmux;\\e\\033]11;$COLOR\\007\\e\\\\"
  else
-#  NOT TMUX
   echo -ne "\\033]11;$COLOR\\007"
  fi
 }
 
-vi() {
+v() {
  term_scheme $VIM_TERM_BG
  nvim "$@"
  term_scheme $DEFAULT_TERM_BG
