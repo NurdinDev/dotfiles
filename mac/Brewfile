@@ -1,17 +1,94 @@
+tap "candid82/brew"
+tap "heroku/brew"
 tap "homebrew/bundle"
 tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/services"
-brew "curl"
+tap "mongodb/brew"
 brew "dnsmasq", restart_service: true
-brew "fish"
+brew "docker", link: false
+brew "python@3.9"
+brew "fzf"
+brew "ghq"
+brew "mas"
 brew "git"
+brew "grep"
+brew "lazydocker"
+brew "lazygit"
 brew "mariadb", restart_service: true
+brew "n"
+brew "tree-sitter", args: ["HEAD"]
+brew "neovim", args: ["HEAD"]
 brew "postgresql", restart_service: true
-brew "pyenv"
-brew "pyenv-virtualenv"
-brew "redis", restart_service: true
+brew "ranger"
+brew "starship"
+brew "stow"
+brew "stylua"
+brew "tmux"
+brew "tmuxinator"
 brew "vim"
 brew "wget"
-brew "zlib"
-brew "leipert-projects/git-recon/git-recon"
+brew "zoxide"
+brew "zsh"
+brew "mongodb/brew/mongodb-community"
+cask "1password"
+cask "dbeaver-community"
+cask "docker"
+cask "slack"
+cask "alfred"
+cask "alacritty"
+cask "appcleaner"
+cask "keepingyouawake"
+cask "notion"
+cask "popcorn-time"
+cask "telegram"
+cask "iterm2"
+cask "microsoft-edge"
+cask "postman"
+cask "spectacle"
+cask "visual-studio-code"
+cask "whatsapp"
+cask "zoom"
+
+# fonts
+cask "font-anonymice-nerd-font"
+cask "font-caskaydia-cove-nerd-font"
+cask "font-code-new-roman-nerd-font"
+cask "font-cousine-nerd-font"
+cask "font-daddy-time-mono-nerd-font"
+cask "font-dejavu-sans-mono-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-im-writing-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-iosevka"
+cask "font-jetbrains-mono-nerd-font"
+cask "font-jetbrains-mono"
+cask "font-juliamono"
+cask "font-monofur-nerd-font"
+cask "font-monoid-nerd-font"
+cask "font-mononoki-nerd-font"
+cask "font-mplus-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+cask "font-victor-mono"
+cask "font-cascadia"
+cask "font-caskaydia-cove-nerd-font"
+cask "font-fira-code"
+cask "font-firacode-nerd-font"
+cask "font-hasklig-nerd-font"
+cask "font-ia-writer-mono"
+cask "font-ibm-plex"
+cask "font-inconsolata"
+cask "font-jetbrains-mono"
+cask "font-victor-mono"
+
+
+
+
+mas "ColorSlurp", id: 1287239339
+mas "Spark", id: 1176895641
+mas "Hand Mirror", id: 1502839586
+mas "Lungo", id: 1263070803
+mas "Xcode", id: 497799835
+
