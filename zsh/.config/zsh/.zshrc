@@ -56,6 +56,10 @@ v() {
  term_scheme $DEFAULT_TERM_BG
 }
 
+vim() {
+ v "$@"
+}
+
 # keybindings
 bindkey -s '^o' 'lfcd\n'
 bindkey -s '^a' 'bc -lq\n'

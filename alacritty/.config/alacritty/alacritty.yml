@@ -29,7 +29,7 @@ window:
 
 
 font:
-  # normal:
+  normal:
     # family: IBM Plex Mono
     # family: SauceCodePro Nerd Font
     # family: CodeNewRoman Nerd Font
@@ -43,32 +43,33 @@ font:
     # family: FiraCode Nerd Font 
     # family: CaskaydiaCove Nerd Font
     # family: Iosevka Nerd Font
+    family: CaskaydiaCove Nerd Font
 
-  normal:
-    family: SauceCodePro Nerd Font
-    style: Regular
+#   normal:
+#     family: SauceCodePro Nerd Font
+#     style: Regular
 
-  bold:
-    family: SauceCodePro Nerd Font
-    style: Bold
+#   bold:
+#     family: SauceCodePro Nerd Font
+#     style: Bold
 
-  italic:
-    family: SauceCodePro Nerd Font
-    style: Italic
+#   italic:
+#     family: SauceCodePro Nerd Font
+#     style: Italic
 
-  bold_italic:
-    family: SauceCodePro Nerd Font
-    style: Bold Italic
+#   bold_italic:
+#     family: SauceCodePro Nerd Font
+#     style: Bold Italic
 
   size: 16.5
 
-  offset:
-     x: 0
-     y: 2
+  # offset:
+  #    x: 0
+  #    y: 3
 
-  glyph_offset:
-   x: -1
-   y: 0
+  # glyph_offset:
+  #  x: -1
+  #  y: 0
 
   # When true, bold text is drawn using the bright variant of colors.
   draw_bold_text_with_bright_colors: true

@@ -39,7 +39,7 @@ M.config = function()
     }
   end
 
-    lvim.builtin.which_key.mappings["o"] = { "<cmd>SymbolsOutline<cr>", "Symbol Outline" }
+  lvim.builtin.which_key.mappings["o"] = { "<cmd>SymbolsOutline<cr>", "Symbol Outline" }
   lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
   lvim.builtin.which_key.mappings["R"] = {
     name = "Replace",

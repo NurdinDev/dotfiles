@@ -10,9 +10,9 @@ M.config = function()
   -- CMP
   -- =========================================
   lvim.builtin.cmp.sources = {
-    { name = "nvim_lsp", max_item_count = 7 },
+    { name = "nvim_lsp" },
     { name = "cmp_tabnine", max_item_count = 3 },
-    { name = "buffer", max_item_count = 3 },
+    { name = "buffer", max_item_count = 5 },
     { name = "path", max_item_count = 5 },
     { name = "luasnip", max_item_count = 3 },
     { name = "nvim_lua" },
@@ -71,7 +71,7 @@ M.config = function()
 
   -- NvimTree
   -- =========================================
-  lvim.builtin.nvimtree.auto_open = 0
+  lvim.builtin.nvimtree.setup.auto_open = 0
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
 
   -- Project
@@ -165,7 +165,7 @@ M.config = function()
   -- =========================================
   local _time = os.date "*t"
   if _time.hour >= 21 and _time.hour <= 24 then
-    -- lvim.colorscheme = "onedarker"
+    lvim.colorscheme = "onedarker"
   end
   --   if lvim.builtin.lastplace.active == false then
   --     -- go to last loc when opening a buffer
