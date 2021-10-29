@@ -12,7 +12,7 @@ M.config = function()
   lvim.builtin.cmp.sources = {
     { name = "nvim_lsp" },
     { name = "cmp_tabnine", max_item_count = 3 },
-    { name = "buffer", max_item_count = 5 },
+    { name = "buffer", max_item_count = 5, keyword_length = 5 },
     { name = "path", max_item_count = 5 },
     { name = "luasnip", max_item_count = 3 },
     { name = "nvim_lua" },
@@ -22,38 +22,54 @@ M.config = function()
     { name = "crates" },
   }
   lvim.builtin.cmp.documentation.border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-  lvim.builtin.cmp.formatting = {
-    format = function(entry, vim_item)
-      local cmp_kind = require("user.lsp_kind").cmp_kind
-      vim_item.kind = cmp_kind(vim_item.kind)
-      vim_item.menu = ({
-        buffer = "(Buffer)",
-        nvim_lsp = "(LSP)",
-        luasni = "(Snip)",
-        treesitter = " ",
-        nvim_lua = "(NvLua)",
-        spell = " 暈",
-        emoji = "  ",
-        path = "  ",
-        calc = "  ",
-        cmp_tabnine = "  ",
-      })[entry.source.name]
-      vim_item.dup = ({
-        buffer = 1,
-        path = 1,
-        nvim_lsp = 0,
-      })[entry.source.name] or 0
-      return vim_item
-    end,
+  lvim.builtin.cmp.experimental = {
+    ghost_text = false,
+    native_menu = false,
+    custom_menu = true,
   }
+  lvim.builtin.cmp.formatting.kind_icons = require("user.lsp_kind").symbols()
+  lvim.builtin.cmp.formatting.source_names = {
+    buffer = "(Buffer)",
+    nvim_lsp = "(LSP)",
+    luasnip = "(Snip)",
+    treesitter = "",
+    nvim_lua = "(NvLua)",
+    spell = "暈",
+    emoji = "",
+    path = "",
+    calc = "",
+    cmp_tabnine = "ﮧ",
+    ["vim-dadbod-completion"] = "𝓐",
+  }
+  if lvim.builtin.copilot.active then
+    lvim.builtin.cmp.experimental.ghost_text = true
+    vim.g.copilot_no_tab_map = true
+    vim.g.copilot_assume_mapped = true
+    vim.g.copilot_tab_fallback = ""
+    local cmp = require "cmp"
+    lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        local copilot_keys = vim.fn["copilot#Accept"]()
+        if copilot_keys ~= "" then
+          vim.api.nvim_feedkeys(copilot_keys, "i", true)
+        else
+          fallback()
+        end
+      end
+    end
+  end
 
   -- Dashboard
   -- =========================================
-  lvim.builtin.dashboard.active = true
-  lvim.builtin.dashboard.custom_section["m"] = {
-    description = { "  Marks              " },
-    command = "Telescope marks",
-  }
+  lvim.builtin.dashboard.active = not lvim.builtin.fancy_dashboard.active
+  if not lvim.builtin.fancy_dashboard.active then
+    lvim.builtin.dashboard.custom_section["m"] = {
+      description = { "  Marks              " },
+      command = "Telescope marks",
+    }
+  end
 
   -- LSP
   -- =========================================
@@ -72,6 +88,15 @@ M.config = function()
   -- NvimTree
   -- =========================================
   lvim.builtin.nvimtree.setup.auto_open = 0
+  lvim.builtin.nvimtree.setup.diagnostics = {
+    enable = true,
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
+  }
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
 
   -- Project
@@ -103,13 +128,21 @@ M.config = function()
     lint_events = { "BufWrite", "CursorHold" },
   }
   lvim.builtin.treesitter.on_config_done = function()
-    require("nvim-treesitter.parsers").get_parser_configs().solidity = {
+    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+    parser_config.solidity = {
       install_info = {
         url = "https://github.com/JoranHonig/tree-sitter-solidity",
         files = { "src/parser.c" },
         requires_generate_from_grammar = true,
       },
       filetype = "solidity",
+    }
+    parser_config.jsonc.used_by = "json"
+    parser_config.markdown = {
+      install_info = {
+        url = "https://github.com/ikatyang/tree-sitter-markdown",
+        files = { "src/parser.c", "src/scanner.cc" },
+      },
     }
   end
 
@@ -121,15 +154,39 @@ M.config = function()
   lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
   lvim.builtin.telescope.defaults.file_ignore_patterns = {
     "vendor/*",
-    "node_modules",
+    "%.lock",
+    "__pycache__/*",
+    "%.sqlite3",
+    "%.ipynb",
+    "node_modules/*",
     "%.jpg",
     "%.jpeg",
     "%.png",
     "%.svg",
     "%.otf",
     "%.ttf",
+    ".git/",
+    "%.webp",
+    ".dart_tool/",
+    ".github/",
+    ".gradle/",
+    ".idea/",
+    ".settings/",
+    ".vscode/",
+    "__pycache__/",
+    "build/",
+    "env/",
+    "gradle/",
+    "node_modules/",
+    "target/",
   }
   lvim.builtin.telescope.defaults.layout_config = require("user.telescope").layout_config()
+  lvim.builtin.telescope.defaults.mappings = {
+    i = {
+      ["<esc>"] = require("telescope.actions").close,
+      ["<C-y>"] = require("telescope.actions").which_key,
+    },
+  }
 
   -- Terminal
   -- =========================================
@@ -140,6 +197,8 @@ M.config = function()
 
   -- WhichKey
   -- =========================================
+  lvim.builtin.which_key.setup.window.winblend = 10
+  lvim.builtin.which_key.setup.window.border = "none"
   lvim.builtin.which_key.on_config_done = function(wk)
     local keys = {
       ["ga"] = { "<cmd>lua require('user.telescope').code_actions()<CR>", "Code Action" },

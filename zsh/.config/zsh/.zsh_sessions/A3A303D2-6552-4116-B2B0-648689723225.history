@@ -1,0 +1,25 @@
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.local/share
+cd ~/.local/share/
+git clone https://github.com/zsh-users/zsh-autosuggestions
+cd ~
+ssh-keygen -t ed25519 -C "nureddin.dev@gmail.com"
+open ~/.ssh/config
+eval "$(ssh-agent -s)"
+touch ~/.ssh/config
+cim ~/.ssh/config
+vim ~/.ssh/config
+vi ~/.ssh/config
+ssh-add -K ~/.ssh/id_ed25519
+pbcopy < ~/.ssh/id_ed25519.pub
+pbcopy < ~/.ssh/id_ed25519.pub
+cd ~/.local/share/
+git clone https://github.com/zsh-users/zsh-autosuggestions
+git clone https://github.com/zdharma/fast-syntax-highlighting
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)\
+
+rm -rf ~/.local/share/lunarvim
+bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+lvim
+lvim
+lvim
+lvim

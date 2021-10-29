@@ -32,6 +32,22 @@ local function diff_source()
   end
 end
 
+local function testing()
+  if vim.g.testing_status == "running" then
+    return " "
+  end
+  if vim.g.testing_status == "fail" then
+    return ""
+  end
+  if vim.g.testing_status == "pass" then
+    return " "
+  end
+  return nil
+end
+local function using_session()
+  return (vim.g.using_persistence ~= nil)
+end
+
 local mode = function()
   local mod = vim.fn.mode()
   if mod == "n" or mod == "no" or mod == "nov" then
@@ -145,9 +161,11 @@ M.config = function()
 
   local colors
   local _time = os.date "*t"
-  if (_time.hour >= 0 and _time.hour < 7) or (_time.hour >= 11 and _time.hour < 17) then
+  if (_time.hour >= 0 and _time.hour < 5) or (_time.hour >= 11 and _time.hour < 17) then
     colors = theme.colors.tokyonight_colors
-  elseif _time.hour >= 7 and _time.hour < 11 then
+  elseif _time.hour >= 5 and _time.hour < 8 then
+    colors = theme.colors.zephyr_colors
+  elseif _time.hour >= 8 and _time.hour < 11 then
     colors = theme.colors.catppuccino_colors
   elseif _time.hour >= 21 and _time.hour <= 24 then
     colors = theme.colors.onedarker_colors
@@ -210,7 +228,7 @@ M.config = function()
         normal = { c = { fg = colors.fg, bg = colors.bg } },
         inactive = { c = { fg = colors.fg, bg = colors.bg_alt } },
       },
-      disabled_filetypes = { "dashboard", "NvimTree", "Outline" },
+      disabled_filetypes = { "dashboard", "NvimTree", "Outline", "alpha" },
     },
     sections = {
       -- these are to remove the defaults
@@ -292,7 +310,7 @@ M.config = function()
 
   ins_left {
     function()
-      local utils = require "core.lualine.utils"
+      local utils = require "lvim.core.lualine.utils"
       local filename = vim.fn.expand "%"
       local kube_env = os.getenv "KUBECONFIG"
       local kube_filename = "kubectl-edit"
@@ -334,7 +352,7 @@ M.config = function()
   }
   ins_left {
     function()
-      local utils = require "core.lualine.utils"
+      local utils = require "lvim.core.lualine.utils"
       if vim.bo.filetype == "python" then
         local venv = os.getenv "CONDA_DEFAULT_ENV"
         if venv then
@@ -352,6 +370,38 @@ M.config = function()
     cond = conditions.hide_in_width,
   }
   ins_left {
+    provider = function()
+      return testing()
+    end,
+    enabled = function()
+      return testing() ~= nil
+    end,
+    hl = {
+      fg = colors.fg,
+    },
+    left_sep = " ",
+    right_sep = {
+      str = " |",
+      hl = { fg = colors.fg },
+    },
+  }
+  ins_left {
+    provider = function()
+      if vim.g.using_persistence then
+        return "  |"
+      elseif vim.g.using_persistence == false then
+        return "  |"
+      end
+    end,
+    enabled = function()
+      return using_session()
+    end,
+    hl = {
+      fg = colors.fg,
+    },
+  }
+
+  ins_left {
     lsp_progress,
     cond = conditions.hide_small,
   }
@@ -364,7 +414,17 @@ M.config = function()
     end,
   }
 
-  local ok, vim_diag = pcall(require, "vim.diagnostic")
+  ins_right {
+    function()
+      if not vim.bo.readonly or not vim.bo.modifiable then
+        return ""
+      end
+      return "" -- """
+    end,
+    color = { fg = colors.red },
+  }
+
+  local ok, _ = pcall(require, "vim.diagnostic")
   if ok then
     ins_right {
       "diagnostics",
@@ -398,7 +458,7 @@ M.config = function()
       msg = msg or "LS Inactive"
       local buf_clients = vim.lsp.buf_get_clients()
       if next(buf_clients) == nil then
-        if #msg == 0 then
+        if type(msg) == "boolean" or #msg == 0 then
           return "LS Inactive"
         end
         return msg
@@ -408,8 +468,8 @@ M.config = function()
       local trim = vim.fn.winwidth(0) < 120
 
       -- add client
-      local utils = require "lsp.utils"
-      local active_client = utils.get_active_client_by_ft(buf_ft)
+      -- local utils = require "lsp.utils"
+      -- local active_client = utils.get_active_client_by_ft(buf_ft)
       for _, client in pairs(buf_clients) do
         if client.name ~= "null-ls" then
           local _added_client = client.name
@@ -419,12 +479,12 @@ M.config = function()
           table.insert(buf_client_names, _added_client)
         end
       end
-      vim.list_extend(buf_client_names, active_client or {})
+      -- vim.list_extend(buf_client_names, active_client or {})
 
       -- add formatter
-      local formatters = require "lsp.null-ls.formatters"
+      local formatters = require "lvim.lsp.null-ls.formatters"
       local supported_formatters = {}
-      for _, fmt in pairs(formatters.list_supported_names(buf_ft)) do
+      for _, fmt in pairs(formatters.list_registered_providers(buf_ft)) do
         local _added_formatter = fmt
         if trim then
           _added_formatter = string.sub(fmt, 1, 4)
@@ -434,9 +494,9 @@ M.config = function()
       vim.list_extend(buf_client_names, supported_formatters)
 
       -- add linter
-      local linters = require "lsp.null-ls.linters"
+      local linters = require "lvim.lsp.null-ls.linters"
       local supported_linters = {}
-      for _, lnt in pairs(linters.list_supported_names(buf_ft)) do
+      for _, lnt in pairs(linters.list_registered_providers(buf_ft)) do
         local _added_linter = lnt
         if trim then
           _added_linter = string.sub(lnt, 1, 4)
@@ -484,14 +544,14 @@ M.config = function()
     end,
     cond = conditions.buffer_not_empty,
   }
-  -- ins_right {
-  --   "fileformat",
-  --   -- upper = true,
-  --   fmt = string.upper,
-  --   icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
-  --   color = { fg = colors.green, gui = "bold" },
-  --   cond = conditions.hide_in_width,
-  -- }
+  ins_right {
+    "fileformat",
+    -- upper = true,
+    fmt = string.upper,
+    icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
+    color = { fg = colors.green, gui = "bold" },
+    cond = conditions.hide_in_width,
+  }
 
   ins_right {
     clock,

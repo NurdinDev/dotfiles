@@ -35,36 +35,10 @@ source "$ZDOTDIR/zsh-functions"
 zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
-zsh_add_file "zsh-tmuxinator"
-
-DEFAULT_TERM_BG="0x1e2127"
-VIM_TERM_BG="#282a36"
-
-term_scheme() {
- local COLOR="$1"
- 
- if [[ -n "$TMUX" ]]; then
-  echo -ne "\\ePtmux;\\e\\033]11;$COLOR\\007\\e\\\\"
- else
-  echo -ne "\\033]11;$COLOR\\007"
- fi
-}
-
-v() {
- term_scheme $VIM_TERM_BG
- nvim "$@"
- term_scheme $DEFAULT_TERM_BG
-}
-
-vim() {
- v "$@"
-}
+zsh_add_file "fzf"
 
 # keybindings
-bindkey -s '^o' 'lfcd\n'
-bindkey -s '^a' 'bc -lq\n'
-bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
-bindkey '^[[P' delete-char
+bindkey -s '^f' "tmux-sessionizer\n"
 
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line

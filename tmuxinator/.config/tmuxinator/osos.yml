@@ -1,7 +1,7 @@
 # /Users/nureddin/.config/tmuxinator/osos.yml
 
 name: osos
-root: ~/dev/roaatech/osos/osos-api
+root: ~/work/osos/osos-api
 
 # Optional tmux socket
 # socket_name: foo
@@ -47,7 +47,7 @@ root: ~/dev/roaatech/osos/osos-api
 windows:
   - osos-api:
       layout: 68a1b,255x65,0,0{62x65,0,0[62x32,0,0,6,62x32,0,33,7],119x65,63,0,8,72x65,183,0[72x32,183,0,9,72x32,183,33,14]}
-      root: ~/dev/roaatech/osos
+      root: ~/work/osos
       panes:
         - users:
           - cd osos-api/services/users-service

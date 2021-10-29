@@ -33,7 +33,7 @@ M.config = function()
       return true
     end
     -- only show log buffers in secondary tabs
-    return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not s_log)
+    return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
   end
 
   ---@diagnostic disable-next-line: unused-function, unused-local

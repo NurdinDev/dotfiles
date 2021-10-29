@@ -44,7 +44,7 @@ function M.find_string()
     layout_config = {
       width = 0.9,
       height = 0.8,
-      hrizontal = { width = { padding = 0.15 } },
+      horizontal = { width = { padding = 0.15 } },
       vertical = { preview_height = 0.75 },
     },
     file_ignore_patterns = {
@@ -116,12 +116,42 @@ end
 -- show code actions in a fancy floating window
 function M.code_actions()
   local opts = {
-    winblend = 10,
-    border = true,
+    winblend = 15,
+    layout_config = {
+      prompt_position = "top",
+      width = 80,
+      height = 12,
+    },
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+    border = {},
     previewer = false,
     shorten_path = false,
   }
   builtin.lsp_code_actions(themes.get_dropdown(opts))
+end
+
+function M.codelens_actions()
+  local opts = {
+    winblend = 15,
+    layout_config = {
+      prompt_position = "top",
+      width = 80,
+      height = 12,
+    },
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+    border = {},
+    previewer = false,
+    shorten_path = false,
+  }
+  builtin.lsp_codelens_actions(themes.get_dropdown(opts))
 end
 
 -- show refrences to this using language server
@@ -158,6 +188,102 @@ function M.find_updir()
   }
 
   builtin.find_files(opts)
+end
+
+function M.grep_last_search(opts)
+  opts = opts or {}
+
+  -- \<getreg\>\C
+  -- -> Subs out the search things
+  local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
+
+  opts.path_display = { "shorten" }
+  opts.word_match = "-w"
+  opts.search = register
+
+  builtin.grep_string(opts)
+end
+
+function M.installed_plugins()
+  builtin.find_files {
+    cwd = join_paths(os.getenv "LUNARVIM_RUNTIME_DIR", "site", "pack", "packer"),
+  }
+end
+
+function M.project_search()
+  builtin.find_files {
+    previewer = false,
+    layout_strategy = "vertical",
+    cwd = require("nvim_lsp.util").root_pattern ".git"(vim.fn.expand "%:p"),
+  }
+end
+
+function M.curbuf()
+  local opts = themes.get_dropdown {
+    winblend = 10,
+    border = true,
+    previewer = false,
+    shorten_path = false,
+  }
+  builtin.current_buffer_fuzzy_find(opts)
+end
+
+function M.git_status()
+  local opts = themes.get_dropdown {
+    winblend = 10,
+    border = true,
+    previewer = false,
+    shorten_path = false,
+  }
+
+  -- Can change the git icons using this.
+  -- opts.git_icons = {
+  --   changed = "M"
+  -- }
+
+  builtin.git_status(opts)
+end
+
+function M.search_only_certain_files()
+  builtin.find_files {
+    find_command = {
+      "rg",
+      "--files",
+      "--type",
+      vim.fn.input "Type: ",
+    },
+  }
+end
+
+function M.builtin()
+  builtin.builtin()
+end
+
+function M.git_files()
+  local path = vim.fn.expand "%:h"
+  if path == "" then
+    path = nil
+  end
+
+  local width = 0.35
+  if path and string.find(path, "sourcegraph.*sourcegraph", 1, false) then
+    width = 0.6
+  end
+
+  local opts = themes.get_dropdown {
+    winblend = 5,
+    previewer = false,
+    shorten_path = false,
+    cwd = path,
+    layout_config = {
+      width = width,
+    },
+  }
+
+  opts.file_ignore_patterns = {
+    "^[.]vale/",
+  }
+  builtin.git_files(opts)
 end
 
 return M

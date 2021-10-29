@@ -47,6 +47,7 @@ cask "telegram"
 cask "iterm2"
 cask "microsoft-edge"
 cask "postman"
+casl "insomnia"
 cask "spectacle"
 cask "visual-studio-code"
 cask "whatsapp"
@@ -89,6 +90,5 @@ cask "font-victor-mono"
 mas "ColorSlurp", id: 1287239339
 mas "Spark", id: 1176895641
 mas "Hand Mirror", id: 1502839586
-mas "Lungo", id: 1263070803
 mas "Xcode", id: 497799835
 
