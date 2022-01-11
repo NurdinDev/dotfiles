@@ -1,104 +1,232 @@
-local finders = require("telescope.finders")
-local previewers = require("telescope.previewers")
-local action_state = require("telescope.actions.state")
-local conf = require("telescope.config").values
-local actions = require("telescope.actions")
+return function()
+  local telescope = require 'telescope'
+  local actions = require 'telescope.actions'
+  local themes = require 'telescope.themes'
 
-require("telescope").setup({
+  local function get_border(opts)
+    return vim.tbl_deep_extend('force', opts or {}, {
+      borderchars = {
+        { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+        prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
+        results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
+        preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+      },
+    })
+  end
+
+  ---@param opts table
+  ---@return table
+  local function dropdown(opts)
+    return themes.get_dropdown(get_border(opts))
+  end
+
+  telescope.setup {
     defaults = {
-        file_sorter = require("telescope.sorters").get_fzy_sorter,
-        prompt_prefix = " >",
-        color_devicons = true,
-
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-
-        mappings = {
-            i = {
-                ["<C-x>"] = false,
-                ["<C-q>"] = actions.send_to_qflist,
-            },
+      set_env = { ['TERM'] = vim.env.TERM },
+      borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+      prompt_prefix = ' ',
+      selection_caret = '» ',
+      mappings = {
+        i = {
+          ['<C-w>'] = actions.send_selected_to_qflist,
+          ['<c-c>'] = function()
+            vim.cmd 'stopinsert!'
+          end,
+          ['<esc>'] = actions.close,
+          ['<c-s>'] = actions.select_horizontal,
+          ['<c-j>'] = actions.cycle_history_next,
+          ['<c-k>'] = actions.cycle_history_prev,
         },
+        n = {
+          ['<C-w>'] = actions.send_selected_to_qflist,
+        },
+      },
+      file_ignore_patterns = { '%.jpg', '%.jpeg', '%.png', '%.otf', '%.ttf' },
+      path_display = { 'smart', 'absolute', 'truncate' },
+      layout_strategy = 'flex',
+      layout_config = {
+        horizontal = {
+          preview_width = 0.45,
+        },
+        cursor = get_border {
+          layout_config = {
+            cursor = { width = 0.3 },
+          },
+        },
+      },
+      winblend = 3,
+      history = {
+        path = vim.fn.stdpath 'data' .. '/telescope_history.sqlite3',
+      },
     },
     extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
+      frecency = {
+        workspaces = {
+          conf = vim.env.DOTFILES,
+          project = vim.env.PROJECTS_DIR,
+          wiki = vim.g.wiki_path,
         },
+      },
+      fzf = {
+        override_generic_sorter = true, -- override the generic sorter
+        override_file_sorter = true, -- override the file sorter
+      },
     },
-})
-
-
-require("telescope").load_extension("git_worktree")
-require("telescope").load_extension("fzy_native")
-
-
-local M = {}
-M.search_dotfiles = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "< VimRC >",
-        cwd = vim.env.DOTFILES,
+    pickers = {
+      buffers = dropdown {
+        sort_mru = true,
+        sort_lastused = true,
+        show_all_buffers = true,
+        ignore_current_buffer = true,
+        previewer = false,
+        theme = 'dropdown',
+        mappings = {
+          i = { ['<c-x>'] = 'delete_buffer' },
+          n = { ['<c-x>'] = 'delete_buffer' },
+        },
+      },
+      oldfiles = dropdown(),
+      live_grep = {
+        file_ignore_patterns = { '.git/' },
+      },
+      current_buffer_fuzzy_find = dropdown {
+        previewer = false,
+        shorten_path = false,
+      },
+      lsp_code_actions = {
+        theme = 'cursor',
+      },
+      colorscheme = {
+        enable_preview = true,
+      },
+      find_files = {
         hidden = true,
-    })
-end
+      },
+      git_branches = dropdown(),
+      git_bcommits = {
+        layout_config = {
+          horizontal = {
+            preview_width = 0.55,
+          },
+        },
+      },
+      git_commits = {
+        layout_config = {
+          horizontal = {
+            preview_width = 0.55,
+          },
+        },
+      },
+      reloader = dropdown(),
+    },
+  }
 
-M.git_branches = function()
-    require("telescope.builtin").git_branches({
-        attach_mappings = function(_, map)
-            map("i", "<c-d>", actions.git_delete_branch)
-            map("n", "<c-d>", actions.git_delete_branch)
-            return true
-        end,
-    })
-end
+  --- NOTE: this must be required after setting up telescope
+  --- otherwise the result will be cached without the updates
+  --- from the setup call
+  local builtins = require 'telescope.builtin'
 
-
-local function set_background(content)
-    vim.fn.system(
-        "dconf write /org/mate/desktop/background/picture-filename \"'"
-            .. content
-            .. "'\""
-    )
-end
-
-local function select_background(prompt_bufnr, map)
-    local function set_the_background(close)
-        local content = require("telescope.actions.state").get_selected_entry(
-            prompt_bufnr
-        )
-        set_background(content.cwd .. "/" .. content.value)
-        if close then
-            require("telescope.actions").close(prompt_bufnr)
-        end
+  local function project_files(opts)
+    if not pcall(builtins.git_files, opts) then
+      builtins.find_files(opts)
     end
+  end
 
-    map("i", "<C-p>", function()
-        set_the_background()
-    end)
+  local function nvim_config()
+    builtins.find_files {
+      prompt_title = '~ nvim config ~',
+      cwd = vim.fn.stdpath 'config',
+      file_ignore_patterns = { '.git/.*', 'dotbot/.*' },
+    }
+  end
 
-    map("i", "<CR>", function()
-        set_the_background(true)
-    end)
+  local function dotfiles()
+    builtins.find_files {
+      prompt_title = '~ dotfiles ~',
+      cwd = vim.g.dotfiles,
+    }
+  end
+
+  local function orgfiles()
+    builtins.find_files {
+      prompt_title = 'Org',
+      cwd = vim.fn.expand '~/Dropbox/org/',
+    }
+  end
+
+  local function norgfiles()
+    builtins.find_files {
+      prompt_title = 'Norg',
+      cwd = vim.fn.expand '~/Dropbox/neorg/',
+    }
+  end
+
+  local function frecency()
+    telescope.extensions.frecency.frecency(dropdown {
+      -- NOTE: remove default text as it's slow
+      -- default_text = ':CWD:',
+      winblend = 10,
+      border = true,
+      previewer = false,
+      shorten_path = false,
+    })
+  end
+
+  local function gh_notifications()
+    telescope.extensions.ghn.ghn(dropdown())
+  end
+
+  local function installed_plugins()
+    require('telescope.builtin').find_files {
+      cwd = vim.fn.stdpath 'data' .. '/site/pack/packer',
+    }
+  end
+
+  local function tmux_sessions()
+    telescope.extensions.tmux.sessions {}
+  end
+
+  local function tmux_windows()
+    telescope.extensions.tmux.windows {
+      entry_format = '#S: #T',
+    }
+  end
+
+  require('which-key').register {
+    ['<c-p>'] = { project_files, 'telescope: find files' },
+    ['<leader>f'] = {
+      name = '+telescope',
+      a = { builtins.builtin, 'builtins' },
+      b = { builtins.current_buffer_fuzzy_find, 'current buffer fuzzy find' },
+      d = { dotfiles, 'dotfiles' },
+      f = { builtins.find_files, 'find files' },
+      n = { gh_notifications, 'notifications' },
+      g = {
+        name = '+git',
+        c = { builtins.git_commits, 'commits' },
+        b = { builtins.git_branches, 'branches' },
+      },
+      m = { builtins.man_pages, 'man pages' },
+      h = { frecency, 'history' },
+      c = { nvim_config, 'nvim config' },
+      o = { builtins.buffers, 'buffers' },
+      p = { installed_plugins, 'plugins' },
+      O = { orgfiles, 'org files' },
+      N = { norgfiles, 'norg files' },
+      R = { builtins.reloader, 'module reloader' },
+      r = { builtins.resume, 'resume last picker' },
+      s = { builtins.live_grep, 'grep string' },
+      t = {
+        name = '+tmux',
+        s = { tmux_sessions, 'sessions' },
+        w = { tmux_windows, 'windows' },
+      },
+      ['?'] = { builtins.help_tags, 'help' },
+    },
+    ['<leader>c'] = {
+      d = { builtins.lsp_workspace_diagnostics, 'telescope: workspace diagnostics' },
+      s = { builtins.lsp_document_symbols, 'telescope: document symbols' },
+      w = { builtins.lsp_dynamic_workspace_symbols, 'telescope: workspace symbols' },
+    },
+  }
 end
-
-local function image_selector(prompt, cwd)
-    return function()
-        require("telescope.builtin").find_files({
-            prompt_title = prompt,
-            cwd = cwd,
-
-            attach_mappings = function(prompt_bufnr, map)
-                select_background(prompt_bufnr, map)
-
-                -- Please continue mapping (attaching additional key maps):
-                -- Ctrl+n/p to move up and down the list.
-                return true
-            end,
-        })
-    end
-end
-
-M.anime_selector = image_selector("< Images > ", "~/dotfiles/backgrounds")
-
-return M

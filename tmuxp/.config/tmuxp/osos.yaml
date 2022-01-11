@@ -1,0 +1,40 @@
+session_name: OSOS
+windows:
+  - window_name: Code
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api
+  - window_name: Api
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd data-service
+          - nodemon .
+      - shell_command:
+          - cd data-service
+          - npm run build:watch
+
+  - window_name: Users
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd users-service
+          - npm start
+
+  - window_name: Storage
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd storage-service
+          - npm start
+
+  - window_name: Frontend
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-frontend
+    panes:
+      - shell_command:
+          - git pulls
+          - ng serve
+      - focus: true

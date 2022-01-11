@@ -1,13 +1,17 @@
-add_newline = true
+[directory]
+style = "blue bold"
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]                            
-success_symbol = "[>](green)"
-error_symbol = "[>](red)"
-vicmd_symbol = "[>](yellow)"
-
-[line_break]
+[package]
 disabled = true
 
-[cmd_duration]
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[aws]
+disabled = true
+
+[docker_context]
 disabled = true

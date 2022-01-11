@@ -17,6 +17,8 @@
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	ls = ls-files
 	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    pullf = !git fetch --all && git reset --hard HEAD && git merge @{u}
+	pulls = !git fetch --all && git stash && git merge @{u} && git stash pop
 
 [color]
 	ui = auto
