@@ -1,6 +1,3 @@
 [submodule "personal"]
 	path = personal
 	url = git@github.com:NurdinDev/dotfiles-personal.git
-[submodule "nvim/.config/nvim"]
-	path = nvim/.config/nvim
-	url = https://github.com/NvChad/NvChad
