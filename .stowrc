@@ -1,0 +1,9 @@
+--ignore=.git
+--ignore=.gitignore
+--ignore=.DS_Store
+--ignore=.stowrc
+--ignore=README.md
+--ignore=stow-mac
+--ignore=stow-linux
+--ignore=^_
+
