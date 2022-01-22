@@ -6,19 +6,23 @@ selection:
   save_to_clipboard: true
 
 window:
-    # Specified in number of columns/lines, not pixels.
-  # If both are `0`, this setting is ignored.
-  # dimensions:
-  #   columns: 80
-  #   lines: 24
-
   padding:
-    x: 0
-    y: 0
+    x: 10
+    y: 10
 
   dynamic_padding: true
-  decorations: none
   startup_mode: Maximized
+  
+  # Window decorations
+  #
+  # Available values:
+  # - `full`: Window with title bar and title bar buttons
+  # - `none`: Window without title bar, rounded corners, or drop shadow
+  # - `transparent`: Window with title bar with transparent background and title
+  #   bar buttons
+  # - `buttonless`: Window with title bar with transparent background and no
+  #   title bar buttons
+  decorations: none
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -27,20 +31,20 @@ scrolling:
 
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
-  multiplier: 3
+  multiplier: 6
 
 font:
   normal:
-    family: DankMono Nerd Font Mono
+    family: "JetBrainsMono Nerd Font"
     style: Regular
   bold:
-    family: DankMono Nerd Font Mono
+    family: "JetBrainsMono Nerd Font"
     style: Bold
   italic:
-    family: DankMono Nerd Font Mono
+    family: "JetBrainsMono Nerd Font"
     style: Italic
   bold_italic:
-    family: DankMono Nerd Font Mono
+    family: "JetBrainsMono Nerd Font"
     style: Bold Italic
 
   size: 20
@@ -53,118 +57,69 @@ font:
     x: 0
     y: 0
 
-cursor:
-  style:
-    blinking: Never
-
 bell:
   animation: EaseOutExpo
   duration: 0
+# Mouse bindings
+#
+# Currently doesn't support modifiers. Both the `mouse` and `action` fields must
+# be specified.
+#
+# Values for `mouse`:
+# - Middle
+# - Left
+# - Right
+# - Numeric identifier such as `5`
+#
+# Values for `action`:
+# - Paste
+# - PasteSelection
+# - Copy (TODO)
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
 
 # Background opacity
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.8
+background_opacity: 1.0
 
-shell:
-  program: /usr/local/bin/tmux
-  args:
-    - new-session
-    - -A
-    - -D
-    - -s
-    - main
+  #shell:
+  #  program: /usr/local/bin/tmux
+  #  args:
+  #    - new-session
+  #    - -A
+  #    - -D
+  #    - -s
+  #    - main
 
 mouse:
   hide_when_typing: true
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+cursor:
+  # Cursor style
+  #
+  # Values for 'style':
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  style: Block
+  unfocused_hollow: false
 
 # Live config reload (changes require restart)
 live_config_reload: true
-
-alt_send_esc: false
-
-key_bindings:
-  - { key: Left,     mods: Control, chars: "\x1bb"                       }
-  - { key: Right,    mods: Control, chars: "\x1bf"                       }
-  - { key: Comma, mods: Command, chars: "\x02\x2c" }
-  - { key: D, mods: Command, chars: "\x02\x4b" }
-  - { key: F, mods: Command, chars: "\x6c\x66\x63\x64\x0a" }
-  - { key: G, mods: Command, chars: "\x02\x67" }
-  - { key: K, mods: Command, chars: "\x02\x73" }
-  - { key: Key1, mods: Command, chars: "\x02\x31" }
-  - { key: Key2, mods: Command, chars: "\x02\x32" }
-  - { key: Key3, mods: Command, chars: "\x02\x33" }
-  - { key: Key4, mods: Command, chars: "\x02\x34" }
-  - { key: Key5, mods: Command, chars: "\x02\x35" }
-  - { key: Key6, mods: Command, chars: "\x02\x36" }
-  - { key: Key7, mods: Command, chars: "\x02\x37" }
-  - { key: Key8, mods: Command, chars: "\x02\x38" }
-  - { key: Key9, mods: Command, chars: "\x02\x39" }
-  - { key: L, mods: Command, chars: "\x02\x4c" }
-  - { key: LBracket, mods: Command, chars: "\x02\x5b" }
-  - { key: LBracket, mods: Command|Shift, chars: "\x02\x70" }
-  - { key: E, mods: Command|Shift, chars: "\x02\x25" }
-  - { key: E, mods: Command, chars: "\x02\x22" }
-  - { key: Q, mods: Command, chars: "\x02\x64" }
-  - { key: RBracket, mods: Command|Shift, chars: "\x02\x6e" }
-  - { key: S, mods: Command, chars: "\x1b\x3a\x77\x0a" }
-  - { key: Semicolon, mods: Command, chars: "\x02\x3a" }
-  - { key: T, mods: Command, chars: "\x02\x63" }
-  - { key: T, mods: Command|Shift, chars: "\x02\x21" }
-  - { key: W, mods: Command, chars: "\x02\x78" }
-  - { key: Z, mods: Command, chars: "\x02\x7a" }
-  - { key: Up,       mods: Alt,     chars: "\x1b[1;5A"                   }
-  - { key: Down,     mods: Alt,     chars: "\x1b[1;5B"                   }
-  - { key: Left,     mods: Alt,     chars: "\x1bb"                       }
-  - { key: Right,    mods: Alt,     chars: "\x1bf"                       }
-  - { key: A,        mods: Alt,     chars: "\x1ba"                       }
-  - { key: B,        mods: Alt,     chars: "\x1bb"                       }
-  - { key: C,        mods: Alt,     chars: "\x1bc"                       }
-  - { key: D,        mods: Alt,     chars: "\x1bd"                       }
-  - { key: E,        mods: Alt,     chars: "\x1be"                       }
-  - { key: F,        mods: Alt,     chars: "\x1bf"                       }
-  - { key: G,        mods: Alt,     chars: "\x1bg"                       }
-  - { key: H,        mods: Alt,     chars: "\x1bh"                       }
-  - { key: I,        mods: Alt,     chars: "\x1bi"                       }
-  - { key: J,        mods: Alt,     chars: "\x1bj"                       }
-  - { key: K,        mods: Alt,     chars: "\x1bk"                       }
-  - { key: L,        mods: Alt,     chars: "\x1bl"                       }
-  - { key: M,        mods: Alt,     chars: "\x1bm"                       }
-  - { key: N,        mods: Alt,     chars: "\x1bn"                       }
-  - { key: O,        mods: Alt,     chars: "\x1bo"                       }
-  - { key: P,        mods: Alt,     chars: "\x1bp"                       }
-  - { key: Q,        mods: Alt,     chars: "\x1bq"                       }
-  - { key: R,        mods: Alt,     chars: "\x1br"                       }
-  - { key: S,        mods: Alt,     chars: "\x1bs"                       }
-  - { key: T,        mods: Alt,     chars: "\x1bt"                       }
-  - { key: U,        mods: Alt,     chars: "\x1bu"                       }
-  - { key: V,        mods: Alt,     chars: "\x1bv"                       }
-  - { key: W,        mods: Alt,     chars: "\x1bw"                       }
-  - { key: X,        mods: Alt,     chars: "\x1bx"                       }
-  - { key: Y,        mods: Alt,     chars: "\x1by"                       }
-  - { key: Z,        mods: Alt,     chars: "\x1bz"                       }
-
-  - { key: H,        mods: Alt|Shift,     chars: "\x1bH"                 }
-  - { key: J,        mods: Alt|Shift,     chars: "\x1bJ"                 }
-  - { key: K,        mods: Alt|Shift,     chars: "\x1bK"                 }
-  - { key: L,        mods: Alt|Shift,     chars: "\x1bL"                 }
-  - { key: Key1, mods: Alt, chars: "\x1b1" }
-  - { key: Key2, mods: Alt, chars: "\x1b2" }
-  - { key: Key3, mods: Alt, chars: "\x1b3" }
-  - { key: Key4, mods: Alt, chars: "\x1b4" }
-  - { key: Key5, mods: Alt, chars: "\x1b5" }
-  - { key: Key6, mods: Alt, chars: "\x1b6" }
-  - { key: Key7, mods: Alt, chars: "\x1b7" }
-  - { key: Key8, mods: Alt, chars: "\x1b8" }
-  - { key: Key9, mods: Alt, chars: "\x1b9" }
+draw_bold_text_with_bright_colors: false
 
 
 # import:
 #   - ~/.config/alacritty/dark_default.yml
-import:
-  - ~/.config/alacritty/catppuccin.yml
+#import:
+#  - ~/.config/alacritty/catppuccin.yml
 
+import:
+  - ~/.config/alacritty/palenight.yml
 # colors: *gruvbox-dark
 # colors: *oceanic-next
 # colors: *doom-one
@@ -173,5 +128,5 @@ import:
 # colors: *dracula
 # colors: *nord
 # colors: *solarized-dark
-# colors: *moonfly
-
+# Colors (Gruvbox dark)
+# Colors (Palenight)
