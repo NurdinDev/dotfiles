@@ -118,8 +118,12 @@ draw_bold_text_with_bright_colors: false
 #import:
 #  - ~/.config/alacritty/catppuccin.yml
 
+# import:
+#   - ~/.config/alacritty/palenight.yml
+
 import:
-  - ~/.config/alacritty/palenight.yml
+  - ~/.config/alacritty/gruvchad.yml
+
 # colors: *gruvbox-dark
 # colors: *oceanic-next
 # colors: *doom-one
