@@ -1,17 +1,21 @@
+command_timeout = 1000
+
 [directory]
-style = "blue bold"
+style = "#A4B9EF"
 
-[package]
-disabled = true
+[cmd_duration]
+style = "#F2CECF"
 
-[username]
-disabled = true
+[character]
+success_symbol = "[](green)"
+error_symbol = "[](red)"
+vicmd_symbol = "[](green)"
 
-[hostname]
-disabled = true
+[git_branch]
+style = '#C6AAE8'
 
-[aws]
-disabled = true
+[git_state]
+style = '#EBDDAA'
 
-[docker_context]
+[lua]
 disabled = true

@@ -4,7 +4,7 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-VIM="nvim"
+VIM="lvim"
 export EDITOR=$VIM
 export VISUAL=$VIM
 export GIT_EDITOR=$VIM
@@ -30,8 +30,10 @@ fi
 path+=(
   "/usr/local/bin"
   "/usr/local/sbin"
-  "$HOME/.npm/bin"
   "$HOME/.local/bin"
+  "$HOME/.cargo/bin"
+  "$HOME/.npm-global/bin"
+  "$HOME/bin"
 )
 
 if [ -d "$HOME/bin" ] ; then
@@ -71,3 +73,8 @@ export FZF_CTRL_T_COMMAND='git ls-files --deleted --modified --others --exclude-
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Don't open FZF in a separate split in tmux
 export FZF_TMUX=0
+
+if [ -d "$HOME/.cargo" ] && [ -s "$HOME/.cargo/env" ]; then
+  # load cargo env
+  source "$HOME/.cargo/env"
+fi;

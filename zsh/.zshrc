@@ -101,32 +101,16 @@ add-zsh-hook precmd set-window-title
 # Aliases
 # =============================================================================
 # LS does not work on macos as it uses a BSD version
+alias nvim=$VIM
+alias vim=$VIM
 alias ls="ls -G"
 alias ll="ls -lAhG"
-alias zshrc='${=EDITOR} ${ZDOTDIR:-$HOME}/.zshrc' # Quick access to the .zshrc file
-alias grep='grep --color'
-alias x="exit" # Exit Terminal
 alias del="rm -rf"
 alias dots="cd $DOTFILES"
-alias coding="cd $PROJECTS_DIR"
-alias lp="lsp"
-alias minimalvim="nvim -u ~/minimal.vim"
 alias v='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias cl='clear'
-alias restart="exec $SHELL"
-alias src='restart'
-alias dnd='do-not-disturb toggle'
-alias ez="nvim ~/.zshrc"
-alias ev="nvim ~/.vimrc"
-alias et="nvim ~/.tmux.conf"
-alias ns="clear && npm start"
-alias nt="clear && npm test"
-alias yt="clear && yarn test"
-alias ys="clear && yarn start"
-
-alias md="mkdir -p"
 
 alias ta="tmux attach -t"
 alias td="tmux detach"
@@ -137,13 +121,7 @@ alias tkill="tmux kill-session -t"
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 
-# suffix aliases set the program type to use to open
-# a particular file with an extension
-alias -s js=nvim
-alias -s html=nvim
-alias -s css=nvim
-
-alias brewfile="cd $DOTFILES/.config/homebrew/ && brew bundle dump --force"
+alias brewfile="cd $DOTFILES/mac/ && brew bundle dump --force"
 alias brewupdate="brew bundle dump --force"
 
 # -------------------------------------------------------------------------------

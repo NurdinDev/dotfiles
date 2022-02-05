@@ -6,4 +6,4 @@
 --ignore=stow-mac
 --ignore=stow-linux
 --ignore=^_
-
+--ignore=themes
