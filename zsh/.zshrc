@@ -101,15 +101,13 @@ add-zsh-hook precmd set-window-title
 # Aliases
 # =============================================================================
 # LS does not work on macos as it uses a BSD version
-alias nvim=$VIM
-alias vim=$VIM
 alias ls="ls -G"
 alias ll="ls -lAhG"
 alias del="rm -rf"
 alias dots="cd $DOTFILES"
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+# alias v='nvim'
+# alias vi='nvim'
+# alias vim='nvim'
 alias cl='clear'
 
 alias ta="tmux attach -t"
@@ -225,3 +223,6 @@ set-window-title() {
   window_title="\e]0;${${PWD/#"$HOME"/~}/projects/p}\a"
   echo -ne "$window_title"
 }
+
+
+dockervm () { docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh }

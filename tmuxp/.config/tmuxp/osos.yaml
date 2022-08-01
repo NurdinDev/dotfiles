@@ -1,0 +1,110 @@
+session_name: OSOS
+windows:
+  - window_name: Api
+    layout: main-horizontal
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd data-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Timeline
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd timeline-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Identity
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd users-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Access
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd access-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Storage
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd storage-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Email
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd email-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Notification
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd notification-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Notification-api
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd notification-api
+          - npm ci
+          - npm run dev
+
+  - window_name: Scheduler
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd scheduler-service
+          - npm ci
+          - npm run dev
+
+  - window_name: Comments
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-api/services
+    panes:
+      - shell_command:
+          - cd comments-service
+          - npm ci
+          - npm run dev
+
+  - window_name: NPM
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+        - cd osos-shared
+        - git pull
+
+  - window_name: Frontend
+    shell_command_before:
+      - cd $WORK_DIR/osos/osos-frontend
+    panes:
+      - shell_command:
+          - git pulls
+          - yarn
+          - yarn start
+      - focus: true 

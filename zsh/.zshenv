@@ -3,8 +3,9 @@ export DISABLE_AUTO_TITLE='true'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
+export TERM=${TERM:=xterm-256color}
 
-VIM="lvim"
+VIM="$(which nvim)"
 export EDITOR=$VIM
 export VISUAL=$VIM
 export GIT_EDITOR=$VIM
@@ -22,6 +23,8 @@ if which rg >/dev/null; then
   export RIPGREP_CONFIG_PATH=$DOTFILES/.config/rg/.ripgreprc
 fi
 
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
 # Added by n-install (see http://git.io/n-install-repo).
 if [ -d "$HOME/n" ]; then
   export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
@@ -34,6 +37,7 @@ path+=(
   "$HOME/.cargo/bin"
   "$HOME/.npm-global/bin"
   "$HOME/bin"
+  "$HOME/go/bin"
 )
 
 if [ -d "$HOME/bin" ] ; then

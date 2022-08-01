@@ -1,0 +1,67 @@
+
+session_name: OSOS-VIM
+windows:
+  - window_name: Api
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/data-service
+          - nvim .
+
+  - windows_name: osos-shared
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+        - cd osos-shared
+        - nvim .
+
+  - window_name: Timeline
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/timeline-contribution
+
+  - window_name: Identity
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/users-service
+
+  - window_name: Storage
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/storage-service
+
+  - window_name: Email
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/email-service
+
+  - window_name: Notification
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+          - cd osos-api/services/notification-service
+
+  - window_name: Spec
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+        - cd osos-service-specification
+
+  - window_name: Frontend
+    shell_command_before:
+      - cd $WORK_DIR/osos
+    panes:
+      - shell_command:
+        - cd osos-frontend

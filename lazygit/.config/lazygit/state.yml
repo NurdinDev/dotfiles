@@ -1,6 +1,8 @@
 lastupdatecheck: 0
 recentrepos:
-- /Users/nureddin/work/osos/osos-frontend
-- /Users/nureddin/work/osos/osos-api
 - /Users/nureddin/.config/nvim
+- /Users/nureddin/work/osos/osos-api
 startuppopupversion: 5
+customcommandshistory:
+- q
+hidecommandlog: false
