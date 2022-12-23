@@ -70,9 +70,11 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma-continuum/fast-syntax-highlighting
 zinit load zsh-users/zsh-history-substring-search
 zinit ice from"gh-r" as"program"
-zinit light junegunn/fzf
+#zinit light junegunn/fzf
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
 # Load the pure theme, with zsh-async library that's bundled with it.
 
 # binding for history substring search
@@ -226,3 +228,26 @@ set-window-title() {
 
 
 dockervm () { docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh }
+
+lg()
+{
+    export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
+
+    lazygit "$@"
+
+    if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+            cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+            rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
+    fi
+}
+
+# pnpm
+export PNPM_HOME="/Users/nureddin/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+
+# Added by serverless binary installer
+export PATH="$HOME/.serverless/bin:$PATH"
+
+source /Users/nureddin/.docker/init-zsh.sh || true # Added by Docker Desktop
