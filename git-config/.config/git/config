@@ -1,0 +1,53 @@
+[user]
+	name = Nureddin Badawi
+	email = hey@nurdin.dev
+[color]
+	ui = true
+[push]
+	default = current
+	followTags = true
+[branch]
+	sort=-committerdate
+[status]
+	showUntrackedFiles = all
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[gc]
+	autoDetach = false
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
+
+# The contents of this file are included only for my work
+[includeIf "hasconfig:remote.*.url:git@gitlab.roaa.tech:**/**"]
+    path = ~/.config/git/work
+
+[rerere]
+	enabled = true
+[column]
+	ui = auto

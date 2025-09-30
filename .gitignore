@@ -1,0 +1,26 @@
+# History files
+.history/*
+
+# Dependencies
+node_modules/
+
+# Editor files
+Session.vim
+.solargraph.yml
+.cursorrules
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
