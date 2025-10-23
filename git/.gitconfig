@@ -10,17 +10,6 @@
 	sort=-committerdate
 [status]
 	showUntrackedFiles = all
-[pager]
-	diff = delta
-	show = delta
-[core]
-	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = /Users/nureddin/.gitignore
-	pager = delta
-	ignorecase = false
-	fsmonitor = true
-[interactive]
-    diffFilter = delta --color-only --features=interactive
 [merge]
     conflictstyle = diff3
 [diff]
@@ -36,6 +25,10 @@
   affected = !sh -c 'git --no-pager diff --name-only $(git rev-parse HEAD) $(git rev-parse HEAD~1)'
   db = "!f() { branch=$(git branch --list | grep -v 'main\\|master' | grep -v '^\\*' | sed 's/^[[:space:]]*//' | fzf --prompt='Delete branch: ' --reverse); if [ -n \"$branch\" ]; then git branch -D \"$branch\"; fi; }; f"
   delete-current-switch-main="!d() { branch=$(git branch --list | grep -v 'main\\|master' | grep '^\\*' | sed 's/^*[[:space:]]*//'); if [ -n \"$branch\" ]; then git switch master; git branch -D \"$branch\"; fi; }; d"
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
 [gc]
 	autoDetach = false
 [color "diff-highlight"]
@@ -56,24 +49,13 @@
 	process = git-lfs filter-process
 	required = true
 [pull]
-	rebase = false
-[rebase]
-	autosquash = true
+	rebase = true
 [init]
 	defaultBranch = main
-[delta]
-	line-numbers = true
-	side-by-side = true
-	; line-numbers-left-format = ""
-	; line-numbers-right-format = "│ "
-	; minus-style = "syntax bold #ef5350"
-	; plus-style = "syntax bold #99b76d"
-  syntax-theme = Catppuccin-Frappe
 
-# The contents of this file are included only for my work 
+# The contents of this file are included only for my work
 [includeIf "hasconfig:remote.*.url:git@gitlab.roaa.tech:osos-project/**"]
     path = ~/.gitconfig-work
-
 
 [rerere]
 	enabled = true

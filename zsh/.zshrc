@@ -115,30 +115,6 @@ bindkey -M viins '^E' autosuggest-accept 2>/dev/null || true
 [[ -f ~/.private_exports ]] && source ~/.private_exports
 
 ##### ── Aliases ─────────────────────────────────────────────────────────────
-# System & navigation
-alias e='exit'
-alias q='exit'
-alias :q='exit'
-alias cat='bat'
-alias vim='nvim'
-alias v='nvim'
-alias ls='eza --group-directories-first -G --color=auto --icons -s type'
-alias ll='ls -lah'
-alias tree='eza --tree --level=5 --icons --group-directories-first --color=auto'
-alias weather="curl http://wttr.in/?Q1n"
-
-# Git helpers
-alias gri='git rebase -i'
-alias gam='git commit --amend -C HEAD'
-alias gdb='git branch --merged | egrep -v "(^\*|master|main|develop|dev|staging|production)" | xargs git branch -d'
-alias lastver='git tag -l | gsort -V | tail -n 1'
-
-# Docker
-alias doc='docker'
-alias docc='docker-compose'
-alias dcup='docker-compose up'
-alias dcupb='docker-compose up --build -d'
-alias dcd='docker-compose down'
 
 # Kubernetes
 alias k='kubectl'
@@ -151,16 +127,8 @@ alias pi='pnpm install'
 alias y='yarn'
 alias yi='yarn install'
 
-# Zoxide
-alias z='__zoxide_z'
-
-# Quick configs
-alias zshconfig='nvim ~/.zshrc'
-alias vimconfig='cd ~/.config/nvim && nvim'
-alias wezconfig='nvim ~/.wezterm.lua'
 alias lg='lazygit'
 alias ld='lazydocker'
-alias upgrade-nvim='brew unlink neovim && brew install --fetch-HEAD --HEAD neovim && brew unlink neovim && brew link neovim -f'
 
 ##### ── Custom scripts ──────────────────────────────────────────────────────
 [[ -f "$HOME/scripts/fzf-git.sh" ]] && source "$HOME/scripts/fzf-git.sh"
